@@ -9,6 +9,13 @@ function mat4x4Perspective(prp, srp, vup, clip) {
                              [0, 0, 1, -prp.values[2]],
                              [0, 0, 0, 1]];
     // 2. rotate VRC such that (u,v,n) align with (x,y,z)
+        let n = prp.subtract(srp);
+        let u = vup.cross(n);
+        let v = n.cross(u);
+        let rotated_vrc = [[u[0], u[1], u[2], 0],
+                            [v[0], v[1], v[2], 0],
+                            [n[0], n[1], n[2], 0],
+                            [0, 0, 0, 1]];
     // 3. shear such that CW is on the z-axis
     // 4. scale such that view volume bounds are ([z,-z], [z,-z], [-1,zmin])
 
