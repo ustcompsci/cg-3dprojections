@@ -3,9 +3,11 @@ import { Matrix, Vector } from "./matrix.js";
 // create a 4x4 matrix to the perspective projection / view matrix
 function mat4x4Perspective(prp, srp, vup, clip) {
     // 1. translate PRP to origin
-    let t = new Matrix(4, 4);
-    mat4x4Translate(t, -prp.values[0], -prp.values[1], -prp.values[2]);
-    // 1. translate PRP to origin
+    let translated_prp = new Matrix(4, 4);
+    translated_prp.values = [[1, 0, 0, -prp.values[0]],
+                             [0, 1, 0, -prp.values[1]],
+                             [0, 0, 1, -prp.values[2]],
+                             [0, 0, 0, 1]];
     // 2. rotate VRC such that (u,v,n) align with (x,y,z)
     // 3. shear such that CW is on the z-axis
     // 4. scale such that view volume bounds are ([z,-z], [z,-z], [-1,zmin])
@@ -37,57 +39,57 @@ function mat4x4Viewport(width, height) {
 // set values of existing 4x4 matrix to the identity matrix
 function mat4x4Identity(mat4x4) {
     mat4x4.values = [[1, 0, 0, 0],
-                    [0, 1, 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1]];
+                     [0, 1, 0, 0],
+                     [0, 0, 1, 0],
+                     [0, 0, 0, 1]];
 }
 
 // set values of existing 4x4 matrix to the translate matrix
 function mat4x4Translate(mat4x4, tx, ty, tz) {
     mat4x4.values = [[1, 0, 0, tx],
-                    [0, 1, 0, ty],
-                    [0, 0, 1, tz],
-                    [0, 0, 0, 1]];
+                     [0, 1, 0, ty],
+                     [0, 0, 1, tz],
+                     [0, 0, 0, 1]];
 }
 
 // set values of existing 4x4 matrix to the scale matrix
 function mat4x4Scale(mat4x4, sx, sy, sz) {
     mat4x4.values = [[sx, 0, 0, 0],
-                    [0, sy, 0, 0],
-                    [0, 0, sz, 0],
-                    [0, 0, 0, 1]];
+                     [0, sy, 0, 0],
+                     [0, 0, sz, 0],
+                     [0, 0, 0, 1]];
 }
 
 // set values of existing 4x4 matrix to the rotate about x-axis matrix
 function mat4x4RotateX(mat4x4, theta) {
     mat4x4.values = [[1, 0, 0, 0],
-                    [0, Math.cos(theta), -Math.sin(theta), 0],
-                    [0, Math.sin(theta), Math.cos(theta), 0],
-                    [0, 0, 0, 1]];
+                     [0, Math.cos(theta), -Math.sin(theta), 0],
+                     [0, Math.sin(theta), Math.cos(theta), 0],
+                     [0, 0, 0, 1]];
 }
 
 // set values of existing 4x4 matrix to the rotate about y-axis matrix
 function mat4x4RotateY(mat4x4, theta) {
     mat4x4.values = [[Math.cos(theta), 0, Math.sin(theta), 0],
-                    [0, 1, 0, 0],
-                    [-Math.sin(theta), 0, Math.cos(theta), 0],
-                    [0, 0, 0, 1]];
+                     [0, 1, 0, 0],
+                     [-Math.sin(theta), 0, Math.cos(theta), 0],
+                     [0, 0, 0, 1]];
 }
 
 // set values of existing 4x4 matrix to the rotate about z-axis matrix
 function mat4x4RotateZ(mat4x4, theta) {
     mat4x4.values = [[Math.cos(theta), -Math.sin(theta), 0, 0],
-                    [Math.sin(theta), Math.cos(theta), 0, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1]];
+                     [Math.sin(theta), Math.cos(theta), 0, 0],
+                     [0, 0, 1, 0],
+                     [0, 0, 0, 1]];
 }
 
 // set values of existing 4x4 matrix to the shear parallel to the xy-plane matrix
 function mat4x4ShearXY(mat4x4, shx, shy) {
     mat4x4.values = [[1, 0, shx, 0],
-                    [0, 1, shy, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1]];
+                     [0, 1, shy, 0],
+                     [0, 0, 1, 0],
+                     [0, 0, 0, 1]];
 }
 
 // create a new 3-component vector with values x,y,z
