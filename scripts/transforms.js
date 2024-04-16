@@ -4,17 +4,13 @@ import { Matrix, Vector } from "./matrix.js";
 function mat4x4Perspective(prp, srp, vup, clip) {
     // 1. translate PRP to origin
     let translate = new Matrix(4, 4);
-    // translate.values = [
-    //     [1, 0, 0, -prp.x],
-    //     [0, 1, 0, -prp.y],
-    //     [0, 0, 1, -prp.z],
-    //     [0, 0, 0, 1]
-    // ];
     mat4x4Translate(translate, -prp.x, -prp.y, -prp.z);
 
     // 2. rotate VRC such that (u,v,n) align with (x,y,z)
-    let n = prp.subtract(srp).normalize();
-    let u = vup.cross(n).normalize();
+    let n = prp.subtract(srp);
+    n.normalize();
+    let u = vup.cross(n);
+    u.normalize();
     let v = n.cross(u);
 
     let rotate = new Matrix(4, 4);
@@ -37,12 +33,6 @@ function mat4x4Perspective(prp, srp, vup, clip) {
     let shy_par = -dop.y / dop.z;
 
     let shear = new Matrix(4, 4);
-    // shear.values = [
-    //     [1, 0, shx_par, 0],
-    //     [0, 1, shy_par, 0],
-    //     [0, 0, 1, 0],
-    //     [0, 0, 0, 1]
-    // ];
     mat4x4ShearXY(shear, shx_par, shy_par);
 
     // 4. scale such that view volume bounds are ([z,-z], [z,-z], [-1,zmin])
@@ -51,16 +41,10 @@ function mat4x4Perspective(prp, srp, vup, clip) {
     let s_per_z = 1 / clip[5];
 
     let scale = new Matrix(4, 4);
-    // scale.values = [
-    //     [s_per_x, 0, 0, 0],
-    //     [0, s_per_y, 0, 0],
-    //     [0, 0, s_per_z, 0],
-    //     [0, 0, 0, 1]
-    // ];
     mat4x4Scale(scale, s_per_x, s_per_y, s_per_z);
 
     // ...
-    let transform = Matrix.multiply(scale, shear, rotate, translate);
+    let transform = Matrix.multiply([scale, shear, rotate, translate]);
     return transform;
 }
 
