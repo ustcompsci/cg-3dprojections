@@ -138,10 +138,13 @@ class Renderer {
             }
 
             // For each vertex, transform endpoints to canonical view volume
-            let transformedVertices = vertices.map(vertex => {
+            let transformedVertices = [];
+            for (let i = 0; i < vertices.length; i++) {
+                let vertex = vertices[i];
                 let modelTransformed = Matrix.multiply([model.matrix, vertex]);
-                return Matrix.multiply([perspectiveMatrix, modelTransformed]);
-            });
+                let perspectiveTransformed = Matrix.multiply([perspectiveMatrix, modelTransformed]);
+                transformedVertices.push(perspectiveTransformed);
+            }
 
             let edges = [];
             if (model.type === 'generic') {
@@ -440,7 +443,7 @@ class Renderer {
         let edges = [];
 
         for (let i = 0; i < sides; i++) {
-            edges.push([i * 2, i * 2 + 1]); 
+            edges.push([i * 2, i * 2 + 1]);
             edges.push([i * 2, (i * 2 + 2) % (sides * 2)]);
             edges.push([i * 2 + 1, (i * 2 + 3) % (sides * 2)]);
         }
