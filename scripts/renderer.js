@@ -67,16 +67,16 @@ class Renderer {
         let prp = this.scene.view.prp;
         let srp = this.scene.view.srp;
 
-        let translationToPRP = new Matrix(4, 4);
-        CG.mat4x4Translate(translationToPRP, -prp.x, -prp.y, -prp.z);
+        let translate = new Matrix(4, 4);
+        CG.mat4x4Translate(translate, -prp.x, -prp.y, -prp.z);
 
-        let translationBackFromPRP = new Matrix(4, 4);
-        CG.mat4x4Translate(translationBackFromPRP, prp.x, prp.y, prp.z);
+        let translateBack = new Matrix(4, 4);
+        CG.mat4x4Translate(translateBack, prp.x, prp.y, prp.z);
 
-        let srpHomogeneous = CG.Vector4(srp.x, srp.y, srp.z, 1);
-        let newSRPHomogeneous = Matrix.multiply([translationBackFromPRP, rotationMatrix, translationToPRP, srpHomogeneous]);
+        let srpH = CG.Vector4(srp.x, srp.y, srp.z, 1);
+        let newSRPH = Matrix.multiply([translateBack, rotationMatrix, translate, srpH]);
 
-        this.scene.view.srp = CG.Vector3(newSRPHomogeneous.x, newSRPHomogeneous.y, newSRPHomogeneous.z);
+        this.scene.view.srp = CG.Vector3(newSRPH.x, newSRPH.y, newSRPH.z);
     }
 
     //
