@@ -320,18 +320,23 @@ class Renderer {
                 model.vertices = [];
                 model.edges = JSON.parse(JSON.stringify(scene.models[i].edges));
                 for (let j = 0; j < scene.models[i].vertices.length; j++) {
-                    model.vertices.push(CG.Vector4(scene.models[i].vertices[j][0],
+                    model.vertices.push(CG.Vector4(
+                        scene.models[i].vertices[j][0],
                         scene.models[i].vertices[j][1],
                         scene.models[i].vertices[j][2],
-                        1));
+                        1
+                    ));
                 }
             }
             else {
-                model.center = CG.Vector3(scene.models[i].center[0],
+                model.center = CG.Vector4(
+                    scene.models[i].center[0],
                     scene.models[i].center[1],
-                    scene.models[i].center[2]);
+                    scene.models[i].center[2],
+                    1
+                );
                 for (let key in scene.models[i]) {
-                    if (scene.models[i].hasOwnProperty(key) && key !== 'type' && key !== 'center') {
+                    if (scene.models[i].hasOwnProperty(key) && key !== 'type' && key != 'center') {
                         model[key] = JSON.parse(JSON.stringify(scene.models[i][key]));
                     }
                 }
