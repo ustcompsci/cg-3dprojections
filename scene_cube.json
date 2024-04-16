@@ -1,0 +1,21 @@
+{
+    "view": {
+        "prp": [0, 0, 10],
+        "srp": [0, 0, 0],
+        "vup": [0, 1, 0],
+        "clip": [-4, 4, -4, 4, 5, 15]
+    },
+    "models": [
+        {
+            "type": "cube",
+            "center": [0, 0, 0],
+            "width": 4,
+            "height": 4,
+            "depth": 4,
+            "animation": {
+                "axis": "x",
+                "rps": 0.2
+            }
+        }
+    ]
+}
