@@ -50,16 +50,16 @@ class Renderer {
 
     //
     rotateLeft() {
-        this.rotateSRPAroundVAxis(-1);
+        this.rotateHelper(-1);
     }
 
     //
     rotateRight() {
-        this.rotateSRPAroundVAxis(1);
+        this.rotateHelper(1);
     }
 
     //
-    rotateSRPAroundVAxis(angle) {
+    rotateHelper(angle) {
         let radians = angle * (Math.PI / 180);
         let rotationMatrix = new Matrix(4, 4);
         CG.mat4x4RotateY(rotationMatrix, radians);
