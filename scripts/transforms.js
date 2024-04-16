@@ -32,7 +32,7 @@ function mat4x4Perspective(prp, srp, vup, clip) {
         -clip[4]
     );
 
-    let dop = cw.subtract(prp); // is this needed?
+    let dop = cw;
     let shx_par = -dop.x / dop.z;
     let shy_par = -dop.y / dop.z;
 
