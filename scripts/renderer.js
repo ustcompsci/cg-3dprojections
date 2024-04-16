@@ -61,8 +61,8 @@ class Renderer {
     //
     rotateHelper(angle) {
         let radians = angle * (Math.PI / 180);
-        let rotationMatrix = new Matrix(4, 4);
-        CG.mat4x4RotateY(rotationMatrix, radians);
+        let rotation = new Matrix(4, 4);
+        CG.mat4x4RotateY(rotation, radians);
 
         let prp = this.scene.view.prp;
         let srp = this.scene.view.srp;
@@ -74,7 +74,7 @@ class Renderer {
         CG.mat4x4Translate(translateBack, prp.x, prp.y, prp.z);
 
         let srpH = CG.Vector4(srp.x, srp.y, srp.z, 1);
-        let newSRPH = Matrix.multiply([translateBack, rotationMatrix, translate, srpH]);
+        let newSRPH = Matrix.multiply([translateBack, rotation, translate, srpH]);
 
         this.scene.view.srp = CG.Vector3(newSRPH.x, newSRPH.y, newSRPH.z);
     }
