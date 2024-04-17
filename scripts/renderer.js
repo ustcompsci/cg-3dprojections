@@ -50,12 +50,12 @@ class Renderer {
 
     //
     rotateLeft() {
-        this.rotateHelper(-1);
+        this.rotateHelper(1);
     }
 
     //
     rotateRight() {
-        this.rotateHelper(1);
+        this.rotateHelper(-1);
     }
 
     //
@@ -81,14 +81,6 @@ class Renderer {
 
     //
     moveLeft() {
-        let u = this.scene.view.vup.cross(this.scene.view.prp.subtract(this.scene.view.srp));
-        u.normalize();
-        this.scene.view.prp = this.scene.view.prp.add(u);
-        this.scene.view.srp = this.scene.view.srp.add(u);
-    }
-
-    //
-    moveRight() {
         let u = this.scene.view.vup.cross(this.scene.view.srp.subtract(this.scene.view.prp));
         u.normalize();
         this.scene.view.prp = this.scene.view.prp.add(u);
@@ -96,8 +88,16 @@ class Renderer {
     }
 
     //
+    moveRight() {
+        let u = this.scene.view.vup.cross(this.scene.view.prp.subtract(this.scene.view.srp));
+        u.normalize();
+        this.scene.view.prp = this.scene.view.prp.add(u);
+        this.scene.view.srp = this.scene.view.srp.add(u);
+    }
+
+    //
     moveBackward() {
-        let n = this.scene.view.srp.subtract(this.scene.view.prp);
+        let n = this.scene.view.prp.subtract(this.scene.view.srp);
         n.normalize();
         this.scene.view.prp = this.scene.view.prp.add(n);
         this.scene.view.srp = this.scene.view.srp.add(n);
@@ -105,7 +105,7 @@ class Renderer {
 
     //
     moveForward() {
-        let n = this.scene.view.prp.subtract(this.scene.view.srp);
+        let n = this.scene.view.srp.subtract(this.scene.view.prp);
         n.normalize();
         this.scene.view.prp = this.scene.view.prp.add(n);
         this.scene.view.srp = this.scene.view.srp.add(n);
